@@ -1,0 +1,23 @@
+{
+  "name": "3dac-driver-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "EventEmitter.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MikeKovarik/3dac-driver-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MikeKovarik/3dac-driver-app/issues"
+  },
+  "homepage": "https://github.com/MikeKovarik/3dac-driver-app#readme",
+  "dependencies": {
+    "aurelia-script": "^1.5.2",
+    "decorate": "^1.0.0"
+  }
+}

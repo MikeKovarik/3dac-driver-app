@@ -1,0 +1,66 @@
+fx-expansion-core {
+	display: block;
+}
+
+fx-expansion {
+	box-shadow: var(--elevation-2);
+	background-color: #FFF;
+	display: flex;
+	flex-direction: column;
+}
+fx-expansion[expanded] + fx-expansion[collapsed],
+fx-expansion:first-of-type {
+	border-top-right-radius: 4px;
+	border-top-left-radius: 4px;
+}
+fx-expansion:last-of-type {
+	border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+}
+fx-expansion[expanded] {
+	margin-top: 16px;
+	margin-bottom: 16px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	border-radius: 4px;
+}
+
+
+fx-expansion > * {
+	padding: 8px var(--side);
+}
+fx-expansion > *:first-child {
+	min-height: 48px;
+	display: flex;
+	align-items: center;
+}
+fx-expansion > *:first-child[seamed] {
+	border-bottom: var(--seam);
+	border: none;
+	border-bottom: 1px solid #EEE;
+}
+fx-expansion > *:first-child[seamed] + * {
+	padding: 16px var(--side) 16px;
+}
+fx-expansion > *:first-child:not([seamed]) + * {
+	padding: 0 var(--side) 8px;
+}
+
+
+fx-expansion [fx-item] {
+	margin: 0;
+	--offset: 12px;
+	--keyline: 48px;
+}
+fx-expansion [slot="content"] {
+	padding: 0 !important;
+	--side: 12px;
+}
+div[fx-item] > button:last-child {
+	margin-right: 0;
+}
+[fx-item][indent] {
+	padding-left: 48px;
+	margin-top: -8px;
+	margin-bottom: 8px;
+}

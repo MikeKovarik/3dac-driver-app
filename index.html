@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<script>
+		window.addEventListener('error', e => alert(e.error.stack || e.error.message))
+		if (location.href.startsWith('http:'))
+			location.href = location.href.replace('http:', 'https:')
+	</script>
+
+	<title>3D Anti COVID Driver</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+	<meta name="theme-color" content="#485ff8">
+	<meta name="mobile-web-app-capable" content="yes">
+	<link rel="manifest" href="./manifest.json">
+	<link rel="stylesheet" href="./flexus/css/flexus-material.css">
+	<link rel="stylesheet" href="./flexus/FxExtension.css">
+	<link rel="stylesheet" href="./style.css">
+</head>
+<body fx-app theme="light" accent="#485ff8">
+
+	<script type="module" src="./flexus/FxExpansion.js"></script>
+	<script type="module" src="./config.js"></script>
+
+	<!--script>
+	window.addEventListener('load', () => {
+		navigator.serviceWorker.register('./service-worker.js')
+	})
+	</script-->
+
+</body>
+</html>

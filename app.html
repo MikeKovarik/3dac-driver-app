@@ -1,0 +1,106 @@
+﻿<template>
+
+	<flexus-view>
+
+		<flexus-toolbar tinted>
+			3DAC
+		</flexus-toolbar>
+
+		<main>
+
+			<fx-expansion repeat.for="task of tasks">
+				<div fx-item>
+					<icon foreground.bind="task.color & attr">${task.icon}</icon>
+					<div flex-3>
+						<div flex body2 muted>${task.from.name}</div>
+						<div flex>${task.to.name}</div>
+					</div>
+					<div flex-2>
+						<div flex body2 muted>Stav</div>
+						<div flex>${task.state}</div>
+					</div>
+					<i icon="chevron_right"></i>
+				</div>
+
+				<div>
+
+					<hr>
+
+					<div fx-item>
+						<icon>local_grocery_store</icon>
+						<div flex>
+							<div body2 muted>${task.from.name}</div>
+							<div>${task.from.address}</div>
+							<div flex>${task.from.phone}</div>
+						</div>
+						<button icon="phone" seamed></button>
+					</div>
+
+					<hr>
+
+					<div fx-item>
+						<icon>outlined_flag</icon>
+						<div flex>
+							<div body2 muted>${task.to.name}</div>
+							<div>${task.to.address}</div>
+							<div flex>${task.to.phone}</div>
+						</div>
+						<button icon="phone" seamed></button>
+					</div>
+
+					<hr>
+
+					<fieldset disabled.bind="task.delivered">
+
+						<div fx-item repeat.for="material of task.materials">
+							<div flex-2>
+								<div body2 muted>Materiál</div>
+								<div>${material.name}</div>
+							</div>
+							<div flex-1>
+								<div body2 muted>Kusů</div>
+								<div>${material.amount}</div>
+							</div>
+							<div flex-1>
+								<div body2 muted>Stav</div>
+								<div>${material.delivered ? 'doručeno' : material.loaded ? 'naloženo' : 'vyloženo'}</div>
+							</div>
+							<div flex-1 if.bind="!task.delivered">
+								<button seamed plain disabled.bind="!task.accepted" if.bind="!material.loaded" click.trigger="material.load()">Naložit</button>
+								<button seamed plain disabled.bind="!task.accepted" if.bind="material.loaded" click.trigger="material.deliver()">Doručit</button>
+							</div>
+						</div>
+
+					</fieldset>
+
+					<hr>
+
+					<fieldset disabled.bind="task.delivered">
+
+						<div fx-item dense>
+							<button flex seamed if.bind="!task.accepted" click.trigger="task.accept()">Příjmout vše</button>
+							<button flex seamed if.bind="task.accepted && !task.loaded" click.trigger="task.load()">Naložit vše</button>
+							<button flex seamed if.bind="task.accepted && task.loaded" click.trigger="task.deliver()">Doručit vše</button>
+							<button flex seamed if.bind="task.accepted" click.trigger="task.reject()">Odmítnout</button>
+						</div>
+
+						<div fx-item dense>
+							<button flex icon="navigation" seamed>na start</button>
+							<button flex icon="navigation" seamed>do cíle</button>
+						</div>
+
+					</fieldset>
+
+				</div>
+
+			</fx-expansion>
+
+		</main>
+		<!--
+				<button icon="expand_less"></button>
+		<button icon="navigation" seamed></button>
+		-->
+
+	</flexus-view>
+
+</template>

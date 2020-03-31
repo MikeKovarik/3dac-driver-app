@@ -1,0 +1,26 @@
+:root {
+	--orange: 215, 110, 20;
+}
+[colorless] {
+	--fg: 0,0,0;
+}
+[foreground="red"] {
+	--fg: var(--red);
+	color: rgb(var(--red)) !important;
+}
+[foreground="orange"] {
+	--fg: var(--orange);
+	color: rgb(var(--orange)) !important;
+}
+[foreground="green"] {
+	--fg: var(--green);
+	color: rgb(var(--green)) !important;
+}
+main {
+	--side: 8px;
+}
+fieldset {
+	margin: 0;
+	padding: 6px 0;
+	border: none;
+}
