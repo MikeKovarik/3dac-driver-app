@@ -103,9 +103,9 @@ decorate(GroupedTask, 'deliveredCount', computedFromList('materials[*].delivered
 decorate(GroupedTask, 'accepted',  computedFrom('acceptedCount'))
 decorate(GroupedTask, 'loaded',    computedFrom('loadedCount'))
 decorate(GroupedTask, 'delivered', computedFrom('deliveredCount'))
-decorate(GroupedTask, 'icon',   computedFrom('loadedCount', 'delivered'))
-decorate(GroupedTask, 'icon',   computedFrom('loadedCount', 'delivered'))
-decorate(GroupedTask, 'color',  computedFrom('loadedCount', 'delivered'))
+decorate(GroupedTask, 'state', computedFrom('loadedCount', 'loaded', 'delivered', 'accepted'))
+decorate(GroupedTask, 'icon',  computedFrom('loadedCount', 'loaded', 'delivered', 'accepted'))
+decorate(GroupedTask, 'color', computedFrom('loadedCount', 'loaded', 'delivered', 'accepted'))
 
 
 class MaterialTask {
@@ -139,9 +139,14 @@ class MaterialTask {
 		this.delivered = true
 	}
 	get state() {
-		// todo: pokracovani priste
+		if (this.delivered) return 'doručeno'
+		if (this.loaded) return 'naloženo'
+		if (this.accepted) return 'nenaloženo'
+		return 'volné'
 	}
 }
+
+decorate(MaterialTask, 'state', computedFrom('loaded', 'delivered', 'accepted'))
 
 function groupBy(arr, hashFunction) {
 	let map = new Map

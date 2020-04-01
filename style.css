@@ -24,3 +24,13 @@ fieldset {
 	padding: 6px 0;
 	border: none;
 }
+
+a > button,
+div[fx-item] > button:last-child {
+	margin-right: 0;
+}
+
+.actions button {
+	--size: 36px !important;
+	margin: 2px 4px !important;
+}

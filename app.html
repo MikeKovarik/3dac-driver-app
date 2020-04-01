@@ -3,14 +3,14 @@
 	<flexus-view>
 
 		<flexus-toolbar tinted>
-			3DAC
+			3D tiskem proti COVID-19
 		</flexus-toolbar>
 
 		<main>
 
-			<fx-expansion repeat.for="task of tasks">
+			<fx-expansion repeat.for="task of tasks" primary.bind="task.color & attr">
 				<div fx-item>
-					<icon foreground.bind="task.color & attr">${task.icon}</icon>
+					<icon tinted>${task.icon}</icon>
 					<div flex-3>
 						<div flex body2 muted>${task.from.name}</div>
 						<div flex>${task.to.name}</div>
@@ -28,24 +28,24 @@
 
 					<div fx-item>
 						<icon>local_grocery_store</icon>
-						<div flex>
+						<div click.trigger="goTo(getNavLink(task.from, false))" flex>
 							<div body2 muted>${task.from.name}</div>
 							<div>${task.from.address}</div>
 							<div flex>${task.from.phone}</div>
 						</div>
-						<button icon="phone" seamed></button>
+						<button icon="phone" seamed click.trigger="goTo(`tel:${task.from.phone}`)"></button>
 					</div>
 
 					<hr>
 
 					<div fx-item>
 						<icon>outlined_flag</icon>
-						<div flex>
+						<div click.trigger="goTo(getNavLink(task.to, false))" flex>
 							<div body2 muted>${task.to.name}</div>
 							<div>${task.to.address}</div>
 							<div flex>${task.to.phone}</div>
 						</div>
-						<button icon="phone" seamed></button>
+						<button icon="phone" seamed click.trigger="goTo(`tel:${task.to.phone}`)"></button>
 					</div>
 
 					<hr>
@@ -63,30 +63,42 @@
 							</div>
 							<div flex-1>
 								<div body2 muted>Stav</div>
-								<div>${material.delivered ? 'doručeno' : material.loaded ? 'naloženo' : 'vyloženo'}</div>
+								<div>${material.state}</div>
 							</div>
-							<div flex-1 if.bind="!task.delivered">
-								<button seamed plain disabled.bind="!task.accepted" if.bind="!material.loaded" click.trigger="material.load()">Naložit</button>
-								<button seamed plain disabled.bind="!task.accepted" if.bind="material.loaded" click.trigger="material.deliver()">Doručit</button>
+							<!--
+							<div flex-1 horizontal spaced="8px" layout>
+								<button small seamed icon="get_app" if.bind="task.accepted && !material.loaded" click.trigger="material.load()"></button>
+								<button small seamed icon="publish" if.bind="task.accepted && material.loaded" click.trigger="material.deliver()"></button>
+								<button small seamed icon="plus" if.bind="!task.accepted" click.trigger="material.accept()"></button>
+								<button small seamed icon="clear" if.bind="task.accepted" click.trigger="material.reject()"></button>
 							</div>
+							-->
 						</div>
 
 					</fieldset>
 
 					<hr>
 
-					<fieldset disabled.bind="task.delivered">
+					<fieldset disabled.bind="task.delivered" class="actions">
 
 						<div fx-item dense>
-							<button flex seamed if.bind="!task.accepted" click.trigger="task.accept()">Příjmout vše</button>
-							<button flex seamed if.bind="task.accepted && !task.loaded" click.trigger="task.load()">Naložit vše</button>
-							<button flex seamed if.bind="task.accepted && task.loaded" click.trigger="task.deliver()">Doručit vše</button>
-							<button flex seamed if.bind="task.accepted" click.trigger="task.reject()">Odmítnout</button>
+							<button flex seamed icon="get_app" if.bind="!task.loaded" disabled.bind="!task.accepted" click.trigger="task.load()">
+								${task.materials.length === 1 ? 'Naložit' : 'Naložit vše'}
+							</button>
+							<button flex seamed icon="publish" if.bind="task.loaded" disabled.bind="!task.accepted" click.trigger="task.deliver()">
+								${task.materials.length === 1 ? 'Doručit' : 'Doručit vše'}
+							</button>
+							<button flex seamed icon="plus" if.bind="!task.accepted" click.trigger="task.accept()">
+								${task.materials.length === 1 ? 'Přijmout' : 'Přijmout vše'}
+							</button>
+							<button flex seamed icon="clear" if.bind="task.accepted" click.trigger="task.reject()">
+								${task.materials.length === 1 ? 'Odmítnout' : 'Odmítnout vše'}
+							</button>
 						</div>
 
 						<div fx-item dense>
-							<button flex icon="navigation" seamed>na start</button>
-							<button flex icon="navigation" seamed>do cíle</button>
+							<button flex icon="navigation" seamed click.trigger="goTo(getNavLink(task.from))">na start</button>
+							<button flex icon="navigation" seamed click.trigger="goTo(getNavLink(task.to))">do cíle</button>
 						</div>
 
 					</fieldset>
@@ -96,10 +108,6 @@
 			</fx-expansion>
 
 		</main>
-		<!--
-				<button icon="expand_less"></button>
-		<button icon="navigation" seamed></button>
-		-->
 
 	</flexus-view>
 

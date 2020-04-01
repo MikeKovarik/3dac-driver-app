@@ -16,8 +16,13 @@ export class App {
 		//this.tasks[3].materials[0].loaded = true
 		this.tasks[3].materials[0].delivered = true
 	}
-	loadMaterial(id) {
+	getNavLink(location, navigate = true) {
+		let coord = `${location.lat},${location.lng}`
+		let url = `https://www.google.com/maps/dir/?api=1&destination=${coord}`
+		if (navigate) url += '&dir_action=navigate'
+		return url
 	}
-	unloadMaterial(id) {
+	goTo(url) {
+		location.href = url
 	}
 }

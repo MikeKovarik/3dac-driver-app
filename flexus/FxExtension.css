@@ -1,3 +1,7 @@
+:root {
+	--card-radius: 8px;
+}
+
 fx-expansion-core {
 	display: block;
 }
@@ -10,21 +14,20 @@ fx-expansion {
 }
 fx-expansion[expanded] + fx-expansion[collapsed],
 fx-expansion:first-of-type {
-	border-top-right-radius: 4px;
-	border-top-left-radius: 4px;
+	border-top-right-radius: var(--card-radius);
+	border-top-left-radius: var(--card-radius);
 }
 fx-expansion:last-of-type {
-	border-bottom-right-radius: 4px;
-	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: var(--card-radius);
+	border-bottom-left-radius: var(--card-radius);
 }
 fx-expansion[expanded] {
 	margin-top: 16px;
 	margin-bottom: 16px;
 	padding-top: 8px;
 	padding-bottom: 8px;
-	border-radius: 4px;
+	border-radius: var(--card-radius);
 }
-
 
 fx-expansion > * {
 	padding: 8px var(--side);
@@ -55,9 +58,6 @@ fx-expansion [fx-item] {
 fx-expansion [slot="content"] {
 	padding: 0 !important;
 	--side: 12px;
-}
-div[fx-item] > button:last-child {
-	margin-right: 0;
 }
 [fx-item][indent] {
 	padding-left: 48px;
