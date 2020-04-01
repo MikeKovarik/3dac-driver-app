@@ -13,7 +13,7 @@ workbox.routing.registerRoute(
 
 workbox.routing.registerRoute(
 	/\.(?:js|mjs|css)$/,
-	new workbox.strategies.StaleWhileRevalidate({
+	new workbox.strategies.NetworkFirst({
 		cacheName: '3dac-scripts',
 	})
-);
+)
