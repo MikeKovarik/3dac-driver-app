@@ -6,7 +6,7 @@
 			3D tiskem proti COVID-19
 		</flexus-toolbar>
 
-		<main>
+		<main if.bind="route === 'list'" id="route-list">
 
 			<fx-expansion repeat.for="task of tasks" primary.bind="task.color & attr">
 				<div fx-item>
@@ -87,7 +87,7 @@
 							<button flex seamed icon="plus" if.bind="!task.claimed" click.trigger="task.claim()">
 								${task.materials.length === 1 ? 'Přijmout' : 'Přijmout vše'}
 							</button>
-							<button flex seamed icon="clear" if.bind="task.claimed" click.trigger="task.unclaim()" disabled.bind="task.claimed">
+							<button flex seamed icon="clear" if.bind="task.claimed" click.trigger="task.unclaim()" disabled.bind="task.loaded">
 								${task.materials.length === 1 ? 'Odmítnout' : 'Odmítnout vše'}
 							</button>
 						</div>
@@ -104,6 +104,29 @@
 			</fx-expansion>
 
 		</main>
+
+		<main if.bind="route === 'settings'" id="route-settings" vertical center layout>
+
+			<p headline>${auth.loggedIn ? 'Přihlášen' : 'Přihlásit'}</p>
+
+			<div fx-item seamed round fullwidth class="input-field">
+				<icon>portrait</icon>
+				<input medium-large plain value.bind="auth._username" type="text" placeholder="User ID" disabled.bind="auth.loggedIn">
+			</div>
+			<div fx-item seamed round fullwidth class="input-field">
+				<icon>lock_open</icon>
+				<input medium-large plain value.bind="auth._token" type="text" placeholder="Token" disabled.bind="auth.loggedIn">
+			</div>
+
+			<button big round tinted click.trigger="auth.logout()" if.bind="auth.loggedIn">logout</button>
+			<button big round tinted click.trigger="auth.login(auth._username, auth._token)" if.bind="!auth.loggedIn">login</button>
+
+		</main>
+
+		<flexus-tabs opaque elevated>
+			<div click.trigger="route = 'list'"><i tinted.bind="route === 'list' & attr" icon="list_alt"></i></div>
+			<div click.trigger="route = 'settings'"><i tinted.bind="route === 'settings' & attr" icon="account_circle"></i></div>
+		</flexus-tabs>
 
 	</flexus-view>
 

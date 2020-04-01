@@ -43,13 +43,16 @@ function getLink(operation, id) {
 export async function get(operation, id) {
 	let url = getLink(operation, id)
 	let res = await fetch(url)
-	let text = await res.text()
-	if (res.status === 400 || res.status === 500) {
+	let text = (await res.text()).trim()
+	if (res.status === 400 || res.status === 500 || (text && !isJson(text))) {
 		console.error(`Request failed`, url, res.status)
-		return alert(`Chyba: ${text}\n${operation}, id: ${id}, http status: ${res.status}`)
-	} else {
-		text = text.trim()
-		if (text) return JSON.parse(text)
+		let message = `Chyba: ${text}\n${operation}, id: ${id}, http status: ${res.status}`
+		alert(message)
+		let err = new Error(message)
+		delete err.stack
+		throw err
+	} else if (text) {
+		return JSON.parse(text)
 	}
 }
 
@@ -76,10 +79,14 @@ function groupBy(arr, hashFunction) {
 export function applyTasksData(data) {
 	let grouped = groupBy(data, item => `${item.from.id}-${item.to.id}`)
 	// reset and insert data into existing array (instead of replacing it)
-	tasks.length = 0
-	tasks.push(...grouped.map(items => new GroupedTask(items)))
+	let instances = grouped.map(items => new GroupedTask(items))
+	tasks.splice(0, tasks.length, ...instances)
 }
 
+function isJson(string) {
+	return (string.startsWith('{') && string.endsWith('}'))
+		|| (string.startsWith('[') && string.endsWith(']'))
+}
 
 
 class MaterialTask {
@@ -100,6 +107,7 @@ class MaterialTask {
 			this.loaded = false
 			this.finished = false
 		} catch(err) {
+			console.error('failed claiming', err)
 			await fetchTasks()
 		}
 	}
@@ -112,6 +120,7 @@ class MaterialTask {
 			this.loaded = false
 			this.finished = false
 		} catch(err) {
+			console.error('failed unclaiming', err)
 			await fetchTasks()
 		}
 	}
@@ -123,6 +132,7 @@ class MaterialTask {
 			this.loaded = true
 			this.finished = false
 		} catch(err) {
+			console.error('failed loading', err)
 			await fetchTasks()
 		}
 	}
@@ -134,6 +144,7 @@ class MaterialTask {
 			this.loaded = false
 			this.finished = true
 		} catch(err) {
+			console.error('failed finishing', err)
 			await fetchTasks()
 		}
 	}

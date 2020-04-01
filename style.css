@@ -16,7 +16,7 @@
 	--fg: var(--green);
 	color: rgb(var(--green)) !important;
 }
-main {
+main#route-list {
 	--side: 8px;
 }
 fieldset {
@@ -38,3 +38,19 @@ div[fx-item] > button:last-child {
 
 [flex-6] {flex: 6}
 [flex-7] {flex: 7}
+
+.input-field {
+	height: 60px;
+	border-width: 1px !important;
+	margin: 8px 0;
+	position: relative;
+}
+	.input-field input {
+		position: absolute;
+		left: 56px;
+		right: 0;
+		width: calc(100% - 56px);
+		margin: 0;
+		padding: 0 !important;
+		height: 100%;
+	}
