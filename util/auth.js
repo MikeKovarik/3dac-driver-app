@@ -16,6 +16,7 @@ class Auth {
 		this._username = this.username = localStorage['3dac-username'] = username
 		this._token    = this.token    = localStorage['3dac-token']    = token
 		api.fetchTasks()
+		if (this.onLogin) this.onLogin()
 	}
 	logout() {
 		this._username = this.username = localStorage['3dac-username'] = ''

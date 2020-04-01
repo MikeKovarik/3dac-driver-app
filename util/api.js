@@ -3,32 +3,8 @@ import {computedFrom} from '../node_modules/aurelia-script/dist/aurelia.esm.js'
 import {computedFromList} from './computedFromList.js'
 import auth from './auth.js'
 
-/*
-/*
-Všechny operace jsem přesunul pod GET a vyžadují parametry
-"username" (nepřejmenovat na "userId"? Je to přesnější),
-"token"
-"operation".
-
-Operation může mít následující hodnoty (není case sensitive):
-* getAssigned - vrátí přiřazené převozy
-* getFree - Vrátí volné převozy
-* setLoaded - Vyžaduje parametr "transportId" - nastaví loaded = true
-* setFinished - Vyžaduje parametr "transportId" - dokončí a skryje převoz.
-* claim - Vyžaduje parametr "transportId" - Vezme převoz z getFree a přiřadí jej tomuto řidiči
-* unclaim - Vyžaduje parametr "transportId" - Vezme převoz z getAssigned a uvolní jej. Nesmí být loaded = true (když už to máš v autě tak to odvézt musíš)
-*/
-
-/*
-200 success
-400 chyba v requestu
-460 nedostatek materiálu na skladu (musí zjebat toho od koho to veze ať to tam zadá)
-500 nějaký fail na mé straně
-*/
-
 export var tasks = []
 
-//const apiEndpoint = 'http://homeworld.stepanekjakub.cz:8080/3dacis/public-transports'
 const apiEndpoint = 'https://is.3dac.cz/3dacis/public-transports'
 
 function getLink(operation, id) {
@@ -237,3 +213,18 @@ decorate(GroupedTask, 'finished', computedFrom('deliveredCount'))
 decorate(GroupedTask, 'state', computedFrom('loadedCount', 'loaded', 'finished', 'claimed'))
 decorate(GroupedTask, 'icon',  computedFrom('loadedCount', 'loaded', 'finished', 'claimed'))
 decorate(GroupedTask, 'color', computedFrom('loadedCount', 'loaded', 'finished', 'claimed'))
+
+/*
+Všechny operace jsem přesunul pod GET a vyžadují parametry
+"username" (nepřejmenovat na "userId"? Je to přesnější),
+"token"
+"operation".
+
+Operation může mít následující hodnoty (není case sensitive):
+* getAssigned - vrátí přiřazené převozy
+* getFree - Vrátí volné převozy
+* setLoaded - Vyžaduje parametr "transportId" - nastaví loaded = true
+* setFinished - Vyžaduje parametr "transportId" - dokončí a skryje převoz.
+* claim - Vyžaduje parametr "transportId" - Vezme převoz z getFree a přiřadí jej tomuto řidiči
+* unclaim - Vyžaduje parametr "transportId" - Vezme převoz z getAssigned a uvolní jej. Nesmí být loaded = true (když už to máš v autě tak to odvézt musíš)
+*/

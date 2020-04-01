@@ -11,6 +11,7 @@ export class App {
 
 	constructor() {
 		this.auth = auth
+		auth.onLogin = () => this.route = 'list'
 		this.route = auth.loggedIn ? 'list' : 'settings'
 		this.fetchData()
 	}
